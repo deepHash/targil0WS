@@ -2,42 +2,43 @@
 
 var EventEmitter = require('events');
 
-class Athlete {
+class Athlete extends EventEmitter{
     
-    constructor(name, field, numOfMedals) {
+    //update to hold numOfMedals in constructor with a default value of 0
+    constructor(name, field) {
+        super();
         this.name = name;
         this.field = field;
-        this.numOfMedals = numOfMedals;
+        this.numOfMedals = 0;
+        this.on("medalsChanged", this.medalsChanged);
     }
 
-    increaseMedals(amount) {
-        this.numOfMedals += amount;
+    increaseMedals() {
+        this.numOfMedals++;
         this.emit('medalsChanged');
     }
 
 
-    decreaseMedals(amount) {
-        this.numOfMedals -= amount;
+    decreaseMedals() {
+        this.numOfMedals--;
         this.emit('medalsChanged');
+    }
+
+    getAllData() {
+        var data = {Name: `${this.name}`,                                 
+                    Field: `${this.field}`,
+                    Medals: `${this.numOfMedals}`};
+        return data;
+    }
+
+    //emit method
+    medalsChanged(){
+        console.log(`${this.name}s medals count has changed to: ${this.numOfMedals}`);
     }
 };
 
-function incMed(){
-    console.log(`inc med`);
+
+module.exports = (name, field, numOfMedals) => {
+    var athlete = new Athlete(name, field);
+    return athlete;
 }
-
-// module.exports = (name, field, numOfMedals) => {
-//     var athlete = new Athlete(name, field, numOfMedals);
-
-//     return athlete;
-// };
-
-//module.exports.increaseMedals = increaseMedals(amount);
-
-module.exports = class Athlete extends EventEmitter {
-    constructor(info) {
-        super();
-        this.athlete = info;
-        console.log("debug!");
-    };
-};
