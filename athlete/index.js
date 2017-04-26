@@ -1,5 +1,4 @@
 'use strict';
-
 var EventEmitter = require('events');
 
 class Athlete extends EventEmitter{
@@ -7,6 +6,7 @@ class Athlete extends EventEmitter{
     //update to hold numOfMedals in constructor with a default value of 0
     constructor(name, field) {
         super();
+        var output;
         this.name = name;
         this.field = field;
         this.numOfMedals = 0;
@@ -20,8 +20,16 @@ class Athlete extends EventEmitter{
 
 
     decreaseMedals() {
-        this.numOfMedals--;
-        this.emit('medalsChanged');
+        //checks if the number of medals is zero before decreasing 
+        if (this.numOfMedals == 0){
+            this.output += `Error: ${this.name} has zero medals\n`;
+            console.log(this.output);
+        }
+        else {
+            this.numOfMedals--;
+            this.emit('medalsChanged');   
+        }
+
     }
 
     getAllData() {
@@ -33,11 +41,15 @@ class Athlete extends EventEmitter{
 
     //emit method
     medalsChanged(){
-        console.log(`${this.name}s medals count has changed to: ${this.numOfMedals}`);
+        this.output += `${this.name}s medals count has changed to: ${this.numOfMedals} in ${this.field}\n`;
+        console.log(this.output);
     }
+
+    getOutput() {
+        return this.output;
+    }
+
 };
-
-
 module.exports = (name, field, numOfMedals) => {
     var athlete = new Athlete(name, field);
     return athlete;
