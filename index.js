@@ -1,6 +1,6 @@
 var express = require('express');
     athlete = require('./athlete');
-    app = express()
+    app = express();
     athletes = [];
     data = [];
 
@@ -34,10 +34,10 @@ app.get('/', function (req, res) {
     res.send(data);
 })
 
-//var port = process.env.PORT || 8080
+var port = process.env.PORT || 8080
 var server = app.listen(8080, function() {
     //var host = server.address().address;
-    var port = server.address().port;
+    //var port = server.address().port;
 
     console.log("Listening at localhost:" + port);
 })
