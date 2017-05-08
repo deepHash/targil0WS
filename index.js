@@ -35,9 +35,6 @@ app.get('/', function (req, res) {
 })
 
 var port = process.env.PORT || 8080
-var server = app.listen(8080, function() {
-    //var host = server.address().address;
-    //var port = server.address().port;
-
+var server = app.listen(port, function() {
     console.log("Listening at localhost:" + port);
 })
